@@ -109,12 +109,28 @@ export class DataService {
           productionBuildingNode = productionBuildingNodes.iterateNext();
         }
 
+
+        const resourceToBuildingMap: Map<string, ProductionBuilding[]> = new Map();
+
+        buildingDatas.forEach(bd => {
+          const mapData = resourceToBuildingMap.get(bd.product);
+          if (mapData) {
+            mapData.push(bd);
+          } else {
+            resourceToBuildingMap.set(bd.product, [bd]);
+          }
+        });
+
+
+        buildingDatas.filter(bd => bd.rawMaterial.length > 0).flatMap(bd => bd.rawMaterial).forEach(rm => {
+          rm.productionBuildings = resourceToBuildingMap.get(rm.product);
+        });
+
         console.log('loaded');
         return buildingDatas;
 
       }), share());
   }
-
 
 }
 
@@ -131,4 +147,5 @@ export interface ProductionBuilding {
 export interface ProductionBuildingInput {
   product: string;
   amount?: number;
+  productionBuildings?: ProductionBuilding[];
 }
