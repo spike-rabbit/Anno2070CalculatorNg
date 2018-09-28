@@ -1,10 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
-import { AppComponent } from './app.component';
+import { MatButtonModule, MatMenuModule, MatToolbarModule } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
+
 import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,10 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatButtonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
