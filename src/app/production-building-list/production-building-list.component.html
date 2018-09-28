@@ -1,5 +1,5 @@
-<ul class="production-building-list">
-  <li *ngFor="let productionBuilding of productionBuildings">
+<mat-list role="list">
+    <mat-list-item *ngFor="let productionBuilding of productionBuildings">
       <app-production-building [productionBuilding]="productionBuilding"></app-production-building>
-  </li>
-</ul>
+    </mat-list-item>
+</mat-list>

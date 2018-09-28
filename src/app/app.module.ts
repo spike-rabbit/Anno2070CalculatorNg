@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatListModule, MatMenuModule, MatToolbarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -34,6 +34,7 @@ import { routes } from './routes';
     MatToolbarModule,
     MatMenuModule,
     MatCardModule,
+    MatListModule,
     MatButtonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
