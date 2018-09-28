@@ -8,9 +8,6 @@ import { DataService } from './data/data.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Anno2070CalculatorNg';
-
-
 
   constructor(private dataService: DataService) { }
 
