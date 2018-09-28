@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { ProductionBuilding } from '../data/data.service';
 
 @Component({
   selector: 'app-production-building',
@@ -8,6 +10,9 @@ import { Component, OnInit } from '@angular/core';
 export class ProductionBuildingComponent implements OnInit {
 
   constructor() { }
+
+  @Input()
+  productionBuilding: ProductionBuilding;
 
   ngOnInit() {
   }
