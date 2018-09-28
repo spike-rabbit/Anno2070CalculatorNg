@@ -126,7 +126,6 @@ export class DataService {
           rm.productionBuildings = resourceToBuildingMap.get(rm.product);
         });
 
-        console.log('loaded');
         return buildingDatas;
 
       }), share());
