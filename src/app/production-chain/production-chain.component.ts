@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { ProductionBuilding } from '../data/data.service';
 
 @Component({
   selector: 'app-production-chain',
@@ -7,9 +9,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductionChainComponent implements OnInit {
 
+  @Input()
+  productionBuilding: ProductionBuilding;
+
+  @Input()
+  count: number;
+
+  @Input()
+  parentTime: number;
+
+  @Input()
+  amount: number;
+
+  @Input()
+  siblingCount: number;
+
   constructor() { }
 
   ngOnInit() {
+    if (!this.count) {
+      // Count is not provided so it must be calculated --> secondary production building
+      this.count = (this.productionBuilding.productTime / 1000) / (this.parentTime / (this.amount || 1000));
+    }
   }
 
 }

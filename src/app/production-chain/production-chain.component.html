@@ -1,3 +1,8 @@
-<p>
-  production-chain works!
-</p>
+<div>
+  {{productionBuilding.name}} ({{count}})
+  <div *ngFor="let rawMaterial of productionBuilding.rawMaterial">
+    <ng-container *ngFor="let building of rawMaterial.productionBuildings">
+      <app-production-chain [productionBuilding]="building" [parentTime]="productionBuilding.productTime" [amount]="amount * count"></app-production-chain>
+    </ng-container>
+  </div>
+</div>
