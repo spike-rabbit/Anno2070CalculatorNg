@@ -12,13 +12,6 @@ import { DataService, ProductionBuilding } from '../data/data.service';
 })
 export class PopulationContainerComponent implements OnInit {
 
-
-  readonly paramToTypeMap = {
-    tycoons: 'Tycoons1',
-    ecos: 'Ecos1',
-    techs: 'Techs1',
-  };
-
   buildingDatas: Observable<ProductionBuilding[]>;
 
   constructor(private dataService: DataService, private activatedRoute: ActivatedRoute) { }
@@ -43,4 +36,12 @@ export class PopulationContainerComponent implements OnInit {
     );
   }
 
+  calculate(selection: PopulationSelection) {
+
+  }
+
+}
+
+export interface PopulationSelection {
+  [key: number]: number;
 }
