@@ -1,5 +1,5 @@
 <div>
   <mat-form-field *ngFor="let control of copyArray(form.controls); let index = index">
-    <input matInput [placeholder]="index + 1" [formControl]="control">
+    <input type="number" matInput [placeholder]="index + 1" [formControl]="control">
   </mat-form-field>
 </div>
