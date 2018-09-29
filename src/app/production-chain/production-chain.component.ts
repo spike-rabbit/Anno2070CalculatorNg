@@ -19,7 +19,7 @@ export class ProductionChainComponent implements OnInit {
   parentTime: number;
 
   @Input()
-  amount: number;
+  amount = 1000;
 
   @Input()
   siblingCount: number;

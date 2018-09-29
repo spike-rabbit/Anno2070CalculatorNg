@@ -70,8 +70,10 @@ export class DataService {
                       break;
                     case 'ProductionTime':
                       buildingData.productTime = +wn.textContent;
+                      break;
                   }
                 });
+                buildingData.productTime = buildingData.productTime || 20000;
                 break;
               case 'BuildCost':
                 cn.childNodes.forEach(bn => {
