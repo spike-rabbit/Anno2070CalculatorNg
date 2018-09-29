@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 
 @Injectable({
@@ -14,16 +14,27 @@ export class DataService {
 
   private _buildingData: Observable<ProductionBuilding[]>;
 
+  private _peopleData: Observable<PeopleData>;
+
   constructor(private http: HttpClient) {
-    this._buildingData = this.loadBuildingData();
+    this._buildingData = combineLatest(this.loadBuildingData(`assets/base.xml`), this.loadBuildingData(`assets/addon.xml`)).pipe(
+      map(([base, addon]) => ([...base, ...addon])),
+      share()
+    );
+
+    this._peopleData = this.loadPeopleData().pipe(share());
   }
 
   get buildingData() {
     return this._buildingData;
   }
 
-  private loadBuildingData() {
-    return this.http.get(`assets/base.xml`, { responseType: 'text' }).pipe(
+  get peopleData() {
+    return this._peopleData;
+  }
+
+  private loadBuildingData(path: string) {
+    return this.http.get(path, { responseType: 'text' }).pipe(
       map(result => {
         const parser = new DOMParser();
         const parsed = parser.parseFromString(result, 'text/xml');
@@ -130,7 +141,54 @@ export class DataService {
 
         return buildingDatas;
 
-      }), share());
+      }));
+  }
+
+  private loadPeopleData() {
+    return this.http.get(`assets/human.xml`, { responseType: 'text' }).pipe(
+      map(rawData => {
+        const parser = new DOMParser();
+        const xmlParsed = parser.parseFromString(rawData, 'text/xml');
+
+        // //ResidenceUpgradeAmountMaxPercent
+
+        const demanAmountsNodes = xmlParsed.evaluate('//Balancing/DemandAmount/*', xmlParsed, null, XPathResult.ANY_TYPE, null);
+
+
+        let demandNode = demanAmountsNodes.iterateNext();
+
+        const result = {};
+
+        while (demandNode) {
+
+          const nodeNameP = /^(Ecos|Tycoons|Techs)+(\d)+$/.exec(demandNode.nodeName);
+
+          if (nodeNameP) {
+            const race = nodeNameP[1].toLowerCase();
+            const level = +nodeNameP[2];
+
+            const demandPerLevel: Map<string, number> = new Map();
+
+            demandNode.childNodes.forEach(cn => {
+              if (cn.nodeName !== '#text') {
+                demandPerLevel.set(cn.nodeName, +cn.textContent);
+              }
+            });
+
+            result[race] = {
+              ...result[race],
+              [level]: demandPerLevel
+            };
+          }
+
+          demandNode = demanAmountsNodes.iterateNext();
+        }
+
+        console.log(result);
+
+        return result;
+      })
+    );
   }
 
 }
@@ -149,4 +207,8 @@ export interface ProductionBuildingInput {
   product: string;
   amount?: number;
   productionBuildings?: ProductionBuilding[];
+}
+
+export interface PeopleData {
+  [key: string]: { [key: number]: Map<string, number> };
 }

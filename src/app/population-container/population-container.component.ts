@@ -13,7 +13,7 @@ import { DataService, ProductionBuilding } from '../data/data.service';
 export class PopulationContainerComponent implements OnInit {
 
 
-  readonly  paramToTypeMap = {
+  readonly paramToTypeMap = {
     tycoons: 'Tycoons1',
     ecos: 'Ecos1',
     techs: 'Techs1',
@@ -21,13 +21,24 @@ export class PopulationContainerComponent implements OnInit {
 
   buildingDatas: Observable<ProductionBuilding[]>;
 
-  constructor(private dataService: DataService, private activatedRoute: ActivatedRoute) {}
+  constructor(private dataService: DataService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-   this.buildingDatas = combineLatest(this.dataService.buildingData, this.activatedRoute.paramMap).pipe(
-      map(([bds, pm]) => {
-        const race = this.paramToTypeMap[pm.get('race')];
-        return bds.filter(bd => bd.buildingLevel === race);
+    this.buildingDatas = combineLatest(this.dataService.buildingData, this.dataService.peopleData, this.activatedRoute.paramMap).pipe(
+      map(([bds, pd, pm]) => {
+        const race = pm.get('race');
+        const resources = new Set<string>();
+        Object.values(pd[race]).forEach(m => {
+          const keys = m.keys();
+
+          let res = keys.next();
+          while (!res.done) {
+            resources.add(res.value);
+            res = keys.next();
+          }
+
+        });
+        return bds.filter(bd => resources.has(bd.product));
       })
     );
   }
