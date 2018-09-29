@@ -1,8 +1,10 @@
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let productionBuilding of productionBuildings" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <app-production-building [productionBuilding]="productionBuilding"></app-production-building>
-    </mat-expansion-panel-header>
-    <app-production-chain [productionBuilding]="productionBuilding" [count]="1"></app-production-chain>
-  </mat-expansion-panel>
+  <ng-container *ngFor="let productionBuilding of productionBuildings">
+    <mat-expansion-panel *ngIf="buildingCount.get(productionBuilding) > 0" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <app-production-building [productionBuilding]="productionBuilding"></app-production-building>
+      </mat-expansion-panel-header>
+      <app-production-chain [productionBuilding]="productionBuilding" [count]="buildingCount.get(productionBuilding)"></app-production-chain>
+    </mat-expansion-panel>
+  </ng-container>
 </mat-accordion>

@@ -1,10 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
   MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule,
   MatListModule,
   MatMenuModule,
   MatToolbarModule,
@@ -38,6 +41,7 @@ import { routes } from './routes';
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
+    ReactiveFormsModule,
     FlexLayoutModule,
     HttpClientModule,
     MatToolbarModule,
@@ -46,6 +50,8 @@ import { routes } from './routes';
     MatExpansionModule,
     MatListModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],

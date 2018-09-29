@@ -23,6 +23,7 @@ export class DataService {
     );
 
     this._peopleData = this.loadPeopleData().pipe(share());
+    console.log('data-service');
   }
 
   get buildingData() {

@@ -12,6 +12,9 @@ export class ProductionBuildingListComponent implements OnInit {
   @Input()
   productionBuildings: ProductionBuilding[];
 
+  @Input()
+  buildingCount: Map<ProductionBuilding, number>;
+
   constructor() { }
 
   ngOnInit() {
